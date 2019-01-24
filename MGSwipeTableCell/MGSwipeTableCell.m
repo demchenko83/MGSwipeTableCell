@@ -877,9 +877,15 @@ static inline CGFloat mgEaseInOutBounce(CGFloat t, CGFloat b, CGFloat c) {
         [_delegate swipeTableCellWillBeginSwiping:self];
     }
     
-    // snapshot cell without separator
-    CGSize  cropSize        = CGSizeMake(self.bounds.size.width, self.contentView.bounds.size.height);
-    _swipeView.image = [self imageFromView:self cropSize:cropSize];
+    //Note (AA): Fixed issue with wrong background color of cell when overlay displayed and cell background color is not opaque
+    if(self.backgroundView != nil) {
+        CGSize cropSize = self.contentView.bounds.size;
+        _swipeView.image = [self imageFromView:self.contentView cropSize:cropSize];
+    } else {
+        // snapshot cell without separator
+        CGSize  cropSize        = CGSizeMake(self.bounds.size.width, self.contentView.bounds.size.height);
+        _swipeView.image = [self imageFromView:self cropSize:cropSize];
+    }
     
     _swipeOverlay.hidden = NO;
     if (_swipeContentView)
