@@ -135,7 +135,9 @@
     CGFloat offsetX = 0;
     UIView* lastButton = [_buttons lastObject];
     for (UIView * button in _buttons) {
-        button.frame = CGRectMake(offsetX, 0, button.bounds.size.width, self.bounds.size.height);
+        //Note (AA): Fixed issue with wrong buttons' heights after interface orientation changed and cell height changed
+        button.frame = CGRectMake(offsetX, 0, button.bounds.size.width, _container.bounds.size.height);
+//        button.frame = CGRectMake(offsetX, 0, button.bounds.size.width, self.bounds.size.height);
         button.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         offsetX += button.bounds.size.width + (lastButton == button ? 0 : _buttonsDistance);
     }
